@@ -1,0 +1,139 @@
+Fox Trading Platform
+A full-stack investment and network marketing application designed for superfast earnings and community growth.
+
+This platform provides a comprehensive solution for managing user investments, calculating multi-level income streams, and visualizing network growth through a modern, data-rich dashboard. It is built with a scalable architecture to support a growing community of users.
+
+✨ Key Features
+The Fox Trading platform is packed with features designed to provide a seamless and powerful user experience:
+
+User & Account Management
+Secure Authentication: JWT-based login and registration system.
+
+Guest Login: Anonymous access to a demo dashboard to explore platform features.
+
+User Profile Management: Users can view their details and change their passwords.
+
+Core Investment System
+Investment Packages: Tiered investment packages with different monthly profit percentages.
+
+6-Month Locking Period: Principal amount is locked for stability, while profits can be withdrawn.
+
+Multi-Stream Income Engine
+Trading Bonus: Monthly profits (10-15%) automatically calculated and distributed based on the investment package.
+
+Direct Income: Instant 5% bonus on the first investment of a directly referred user.
+
+Referral Income: A deep, 20-level referral system providing cascading passive income.
+
+Salary Income: Monthly salary based on achieving specific business volume milestones in a binary (Left/Right leg) network structure.
+
+Fast Track Rewards: Time-sensitive bonuses for achieving salary ranks quickly after joining.
+
+Advanced Dashboard & Analytics
+At-a-Glance Stats: Key metrics like Total Investment, Wallet Balance, and Network Size are displayed prominently.
+
+Interactive Profit Charts: Visual representation of profit trends over time.
+
+Income Breakdown: Donut charts showing the sources of user earnings.
+
+Recent Transactions: A live feed of all credits and debits to the user's wallet.
+
+Network Management
+Interactive Tree View: A visual representation of the user's downline network.
+
+Binary Leg Tracking: Clear visualization of Left vs. Right leg business volume for salary calculations.
+
+Financial Management
+Integrated Wallet: Secure in-platform wallet for managing all earnings.
+
+Deposits & Withdrawals: Functionality to add funds and withdraw earnings.
+
+Business Rule Enforcement: System-enforced minimum withdrawal amount of $100 with zero fees, as per the business plan.
+
+🛠️ Technology Stack
+This project is built using a modern, robust, and scalable technology stack.
+
+Frontend: React (Next.js) with Tailwind CSS
+
+Backend: Node.js with Express.js & TypeScript
+
+Database: MongoDB with Mongoose
+
+Authentication: JSON Web Tokens (JWT)
+
+Data Visualization: Recharts
+
+🚀 Getting Started
+Follow these instructions to get a local copy of the project up and running for development and testing purposes.
+
+Prerequisites
+Node.js (v18 or later)
+
+npm or yarn
+
+MongoDB instance (local or cloud-based like MongoDB Atlas)
+
+Installation & Setup
+Clone the repository:
+
+git clone [https://github.com/your-username/fox-trading.git](https://github.com/your-username/fox-trading.git)
+cd fox-trading
+
+Install Backend Dependencies:
+
+cd server
+npm install
+
+Install Frontend Dependencies:
+
+cd ../client
+npm install
+
+Set Up Environment Variables:
+Create a .env file in the server directory and add the following variables:
+
+# .env in /server
+
+# MongoDB Connection String
+MONGO_URI=mongodb+srv://<user>:<password>@<cluster-url>/foxtrading?retryWrites=true&w=majority
+
+# JWT Secret Key
+JWT_SECRET=your_super_secret_jwt_key
+
+# Server Port
+PORT=5000
+
+Replace the placeholder values with your actual configuration.
+
+Run the Application:
+
+Start the Backend Server: From the server directory:
+
+npm run dev
+
+Start the Frontend Development Server: From the client directory:
+
+npm run dev
+
+The frontend will be available at http://localhost:3000 and the backend at http://localhost:5000.
+
+📄 API Endpoints
+A summary of the core API endpoints. See the backend source code for full details.
+
+POST /api/auth/register - Register a new user.
+
+POST /api/auth/login - Log in a user.
+
+GET /api/user/profile - Get current user's profile.
+
+GET /api/user/dashboard-stats - Get stats for the dashboard.
+
+GET /api/user/salary-status - Get salary rank progress.
+
+POST /api/investments/invest - Make a new investment.
+
+GET /api/network/tree - Get the user's downline network.
+
+POST /api/wallet/withdraw - Request a withdrawal.
+
+GET /api/rewards/status - Get status of fast track rewards.

@@ -1,0 +1,67 @@
+generator client {
+  provider = "prisma-client-js"
+  seed     = "node prisma/seed.cjs"
+  output   = "./generated/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model investments {
+  id                  String   @id @default(cuid()) @db.VarChar(30)
+  user_id             String   @db.VarChar(30)
+  amount              Decimal  @db.Decimal(18, 2)
+  package_name        String   @db.VarChar(100)
+  monthly_profit_rate Decimal  @db.Decimal(5, 2)
+  status              String   @db.VarChar(10)
+  start_date          DateTime @db.Timestamp(6)
+  unlock_date         DateTime @db.Timestamp(6)
+  users               users    @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([user_id], map: "idx_investments_user")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model transactions {
+  id            String   @id @default(cuid()) @db.VarChar(30)
+  user_id       String   @db.VarChar(30)
+  amount        Decimal  @db.Decimal(18, 2)
+  type          String   @db.VarChar(10)
+  income_source String   @db.VarChar(32)
+  description   String?
+  timestamp     DateTime @default(now()) @db.Timestamp(6)
+  users         users    @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([user_id, timestamp(sort: Desc)], map: "idx_transactions_user_time")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model users {
+  id                       String         @id @default(cuid()) @db.VarChar(30)
+  full_name                String         @db.VarChar(200)
+  email                    String         @unique @db.VarChar(200)
+  password_hash            String?        @db.VarChar(200)
+  referral_code            String         @unique @db.VarChar(32)
+  sponsor_id               String?        @db.VarChar(30)
+  position_in_sponsor_tree String?        @db.VarChar(1)
+  role                     String         @default("USER") @db.VarChar(10)
+  googleId                 String?        @unique @db.VarChar(100)
+  created_at               DateTime       @default(now()) @db.Timestamp(6)
+  investments              investments[]
+  transactions             transactions[]
+  users                    users?         @relation("usersTousers", fields: [sponsor_id], references: [id], onUpdate: NoAction)
+  other_users              users[]        @relation("usersTousers")
+  wallets                  wallets?
+
+  @@index([sponsor_id], map: "idx_users_sponsor")
+}
+
+model wallets {
+  id      String  @id @default(cuid()) @db.VarChar(30)
+  user_id String  @unique @db.VarChar(30)
+  balance Decimal @default(0) @db.Decimal(18, 2)
+  users   users   @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
