@@ -17,10 +17,49 @@ import Wallet from "./pages/app/Wallet";
 import Profile from "./pages/app/Profile";
 import Salary from "./pages/app/Salary";
 import Rewards from "./pages/app/Rewards";
+
+// Sub-page components for new navigation structure
+
+// Investment sub-pages
+const MyInvestments = () => <div className="p-6"><h1 className="text-2xl font-bold text-yellow-500">My Investments</h1><p className="text-muted-foreground mt-2">Manage your personal investments</p></div>;
+const TeamInvestments = () => <div className="p-6"><h1 className="text-2xl font-bold text-yellow-500">Team Investments</h1><p className="text-muted-foreground mt-2">View your team's investment portfolio</p></div>;
+
+// Income sub-pages
+
+// Network sub-pages
+
+
+// Settings sub-pages
+const ChangePassword = () => <div className="p-6"><h1 className="text-2xl font-bold text-yellow-500">Change Profile Password</h1><p className="text-muted-foreground mt-2">Update your account password</p></div>;
+const AddWithdrawalAddress = () => <div className="p-6"><h1 className="text-2xl font-bold text-yellow-500">Add Withdrawal Address</h1><p className="text-muted-foreground mt-2">Manage your crypto withdrawal addresses</p></div>;
 import { AuthProvider, useAuth } from "@/hooks/use-auth";
 import PaymentsPage from "./pages/app/admin/Payments";
+import CryptoDeposit from "./pages/app/CryptoDeposit";
+import DepositHistory from "./pages/app/DepositHistory";
+import DirectTeam from "./pages/app/DirectTeam";
+import TotalTeam from "./pages/app/TotalTeam";
+import MyIncome from "./pages/app/MyIncome";
+import ReferralIncome from "./pages/app/ReferralIncome";
+import DirectIncome from "./pages/app/DirectIncome";
+import SalaryIncome from "./pages/app/SalaryIncome";
+import WithdrawalIncome from "./pages/app/WithdrawalIncome";
+import WithdrawalInvestment from "./pages/app/WithdrawalInvestment";
+import WithdrawalHistory from "./pages/app/WithdrawalHistory";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 30 * 1000, // 30 seconds
+      cacheTime: 5 * 60 * 1000, // 5 minutes
+      refetchOnWindowFocus: false,
+      refetchOnMount: true,
+      retry: 1, // Reduce retry attempts for faster error handling
+    },
+    mutations: {
+      retry: 1,
+    },
+  },
+});
 
 /**
  * A component to protect routes that require a user to be logged in.
@@ -68,9 +107,38 @@ function AppRoutes() {
         }
       >
         <Route index element={<Dashboard />} />
-        <Route path="referrals" element={<Referrals />} />
-        <Route path="network" element={<Network />} />
+        
+        {/* Deposit Routes */}
+        <Route path="deposit/crypto" element={<CryptoDeposit />} />
+        <Route path="deposit/history" element={<DepositHistory />} />
+        
+        {/* Investment Routes */}
+        <Route path="investments/my" element={<MyInvestments />} />
+        <Route path="investments/team" element={<TeamInvestments />} />
+        
+        {/* Income Routes */}
+        <Route path="income/my" element={<MyIncome />} />
+        <Route path="income/referral" element={<ReferralIncome />} />
+        <Route path="income/direct" element={<DirectIncome />} />
+        <Route path="income/salary" element={<SalaryIncome />} />
+        
+        {/* Network Routes */}
+        <Route path="network/direct" element={<DirectTeam />} />
+        <Route path="network/total" element={<TotalTeam />} />
+        
+        {/* Withdrawal Routes */}
+        <Route path="withdrawal/income" element={<WithdrawalIncome />} />
+        <Route path="withdrawal/investment" element={<WithdrawalInvestment />} />
+        <Route path="withdrawal/history" element={<WithdrawalHistory />} />
+        
+        {/* Settings Routes */}
+        <Route path="settings/password" element={<ChangePassword />} />
+        <Route path="settings/address" element={<AddWithdrawalAddress />} />
+        
+        {/* Legacy routes - can be removed later */}
         <Route path="investments" element={<Investments />} />
+        <Route path="network" element={<Network />} />
+        <Route path="referrals" element={<Referrals />} />
         <Route path="wallet" element={<Wallet />} />
         <Route path="profile" element={<Profile />} />
         <Route path="salary" element={<Salary />} />

@@ -70,9 +70,13 @@ export default function LoginPage() {
               <Input value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" type="password" required />
             </div>
             {error && <p className="text-destructive text-sm">{error}</p>}
-            <Button className="w-full bg-accent text-foreground hover:shadow-gold-glow" disabled={loading}>
+            <button 
+              type="submit"
+              className="w-full h-10 px-4 py-2 bg-accent text-black font-medium rounded-md hover:shadow-gold-glow hover:bg-accent/90 disabled:opacity-50 disabled:pointer-events-none transition-colors" 
+              disabled={loading}
+            >
               {loading ? 'Signing in...' : 'Sign in'}
-            </Button>
+            </button>
           </form>
 
           {/* ✅ GOOGLE SIGN-IN BUTTON */}

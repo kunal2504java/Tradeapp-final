@@ -4,13 +4,21 @@ import { nanoid } from 'nanoid';
 import prisma from '../lib/prisma.js';
 import { generateUniqueReferralCode } from '../utils/referralCode.js';
 
-passport.use(new GoogleStrategy({
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: 'http://localhost:4000/api/auth/google/callback',
-    scope: ['profile', 'email'],
-    passReqToCallback: true // Enable access to the request object
-},
+// Debug: Check if Google OAuth environment variables are available
+console.log('Google OAuth Environment Variables:');
+console.log('GOOGLE_CLIENT_ID loaded:', !!process.env.GOOGLE_CLIENT_ID);
+console.log('GOOGLE_CLIENT_SECRET loaded:', !!process.env.GOOGLE_CLIENT_SECRET);
+
+// Only configure Google OAuth if environment variables are present
+if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+  console.log('Configuring Google OAuth strategy...');
+  passport.use(new GoogleStrategy({
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: 'http://localhost:4000/api/auth/google/callback',
+      scope: ['profile', 'email'],
+      passReqToCallback: true // Enable access to the request object
+  },
 async (req, accessToken, refreshToken, profile, done) => {
     try {
         console.log('OAuth callback - Profile:', profile.displayName);
@@ -103,9 +111,13 @@ async (req, accessToken, refreshToken, profile, done) => {
         return done(null, newUser);
 
     } catch (error) {
+        console.error('Google OAuth error:', error);
         return done(error, false);
     }
-}));
+  }));
+} else {
+  console.warn('Google OAuth not configured: Missing GOOGLE_CLIENT_ID or GOOGLE_CLIENT_SECRET environment variables');
+}
 
 // Type annotations `: any` and `: string` are removed from the function parameters
 passport.serializeUser((user, done) => {

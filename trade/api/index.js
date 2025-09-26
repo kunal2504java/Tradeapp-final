@@ -9,10 +9,11 @@ import { userRouter } from './src/routes/user.js';
 import { investmentRouter } from './src/routes/investment.js';
 import { networkRouter } from './src/routes/network.js';
 import { walletRouter } from './src/routes/wallet.js';
+import { withdrawalRouter } from './src/routes/withdrawal.js';
 import { scheduleCommissionJobs } from './src/jobs/scheduler.js';
 import { rewardsRouter } from './src/routes/rewards.js';
 import { testingRouter } from './src/routes/testing.js';
-import { adminRouter } from './src/routes/admin.js'; 
+import { adminRouter } from './src/routes/admin.js';
 
 import './src/config/passport.js';
 
@@ -45,9 +46,10 @@ app.use('/api/user', userRouter);
 app.use('/api/investment', investmentRouter);
 app.use('/api/network', networkRouter);
 app.use('/api/wallet', walletRouter);
+app.use('/api/withdrawal', withdrawalRouter);
 app.use('/api/rewards', rewardsRouter);
 app.use('/api/testing', testingRouter);
-app.use('/api/admin', adminRouter); 
+app.use('/api/admin', adminRouter);
 
 const port = Number(process.env.PORT || 4000);
 

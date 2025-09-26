@@ -11,12 +11,16 @@ export function setAuthToken(token: string | null) {
 }
 
 export async function api<T = unknown>(path: string, init?: { method?: string; body?: unknown; headers?: Record<string, string> }): Promise<T> {
-  const token = getAuthToken();
+  const token = getAuthToken();
 
-  // Ensure we're calling the backend API
-  const fullUrl = path.startsWith('http') ? path : `http://localhost:4000${path}`;
+  // Use relative path when in development (Vite proxy will handle it)
+  // Use full URL for production or when path already starts with http
+  const fullUrl = path.startsWith('http') ? path : path;
 
-  console.log('API call:', fullUrl, 'Token:', token ? 'Present' : 'Missing');
+  // Only log in development mode to improve performance
+  if (process.env.NODE_ENV === 'development') {
+    console.log('API call:', fullUrl, 'Token:', token ? 'Present' : 'Missing');
+  }
 
   const res = await fetch(fullUrl, {
     method: init?.method ?? 'GET',
@@ -28,7 +32,9 @@ export async function api<T = unknown>(path: string, init?: { method?: string; b
     body: init?.body ? JSON.stringify(init.body) : undefined,
   });
 
-  console.log('API response status:', res.status, res.statusText);
+  if (process.env.NODE_ENV === 'development') {
+    console.log('API response status:', res.status, res.statusText);
+  }
 
   if (!res.ok) {
     let message = 'Request failed';
@@ -36,13 +42,17 @@ export async function api<T = unknown>(path: string, init?: { method?: string; b
       const data = await res.json();
       message = data?.error?.message || data?.error || data?.message || message;
     } catch {}
-    console.error('API error:', message);
+    if (process.env.NODE_ENV === 'development') {
+      console.error('API error:', message);
+    }
     throw new Error(message);
   }
 
   try {
     const data = await res.json();
-    console.log('API response data:', data);
+    if (process.env.NODE_ENV === 'development') {
+      console.log('API response data:', data);
+    }
     return data as T;
   } catch (e) {
     // If the response body is empty, return an empty object.

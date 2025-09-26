@@ -16,6 +16,8 @@ dotenv.config({ path: envPath });
 console.log('JWT_SECRET loaded:', !!process.env.JWT_SECRET);
 console.log('DATABASE_URL loaded:', !!process.env.DATABASE_URL);
 console.log('PORT loaded:', !!process.env.PORT);
+console.log('GOOGLE_CLIENT_ID loaded:', !!process.env.GOOGLE_CLIENT_ID);
+console.log('GOOGLE_CLIENT_SECRET loaded:', !!process.env.GOOGLE_CLIENT_SECRET);
 
 import cors from 'cors';
 import { json } from 'express';
@@ -29,7 +31,8 @@ import { walletRouter } from './routes/wallet.js';
 import { scheduleCommissionJobs } from './jobs/scheduler.js';
 import { rewardsRouter } from './routes/rewards.js';
 import { testingRouter } from './routes/testing.js';
-import { adminRouter } from './routes/admin.js'; 
+import { adminRouter } from './routes/admin.js';
+import { withdrawalRouter } from './routes/withdrawal.js';
 
 // This import executes the passport configuration.
 import './config/passport.js';
@@ -60,8 +63,9 @@ app.use('/api/investment', investmentRouter);
 app.use('/api/network', networkRouter);
 app.use('/api/wallet', walletRouter);
 app.use('/api/rewards', rewardsRouter);
+app.use('/api/withdrawal', withdrawalRouter);
 app.use('/api/testing', testingRouter);
-app.use('/api/admin', adminRouter); 
+app.use('/api/admin', adminRouter);
 
 const port = Number(process.env.PORT || 4000);
 
