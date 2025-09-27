@@ -20,18 +20,12 @@ import {
 } from 'lucide-react';
 import { useDashboardData } from '@/hooks/use-api';
 import { toast } from '@/hooks/use-toast';
+import CryptoPrices from '@/components/CryptoPrices';
 
 const Dashboard: React.FC = () => {
   const [showBalance, setShowBalance] = useState(true);
   const { data, loading, error } = useDashboardData();
   
-  // Keep crypto data static for now (can be fetched from external API later)
-  const cryptoData = [
-    { name: 'Bitcoin', symbol: 'BTC', price: '$43,250.00', change: '+2.5%', changeType: 'up' as const },
-    { name: 'Ethereum', symbol: 'ETH', price: '$2,650.00', change: '-1.2%', changeType: 'down' as const },
-    { name: 'Cardano', symbol: 'ADA', price: '$0.45', change: '+5.8%', changeType: 'up' as const },
-    { name: 'Solana', symbol: 'SOL', price: '$98.50', change: '+3.2%', changeType: 'up' as const },
-  ];
 
   // Show loading state
   if (loading) {
@@ -265,50 +259,8 @@ const Dashboard: React.FC = () => {
         </Card>
       </div>
 
-      {/* Crypto Markets */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg flex items-center gap-2">
-            <BarChart3 size={18} />
-            Live Crypto Markets
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-3">
-            {cryptoData.map((crypto, index) => (
-              <div
-                key={index}
-                className="flex items-center justify-between p-4 bg-muted/30 rounded-lg border"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-yellow-500/20 rounded-full flex items-center justify-center">
-                    <span className="text-xs font-bold text-yellow-500">
-                      {crypto.symbol.substring(0, 2)}
-                    </span>
-                  </div>
-                  <div>
-                    <p className="font-medium">{crypto.name}</p>
-                    <p className="text-sm text-muted-foreground">{crypto.symbol}</p>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <p className="font-bold">{crypto.price}</p>
-                  <div className={`flex items-center gap-1 text-sm ${
-                    crypto.changeType === 'up' ? 'text-green-500' : 'text-red-500'
-                  }`}>
-                    {crypto.changeType === 'up' ? (
-                      <ArrowUp size={12} />
-                    ) : (
-                      <ArrowDown size={12} />
-                    )}
-                    <span>{crypto.change}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+      {/* Live Crypto Markets */}
+      <CryptoPrices />
     </div>
   );
 };

@@ -5,12 +5,15 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon src/index.js",
-    "start": "node src/index.js",
+    "start": "node index.js",
+    "build": "npx prisma generate",
     "lint": "eslint .",
-    "seed": "node prisma/seed.js"
+    "seed": "node prisma/seed.js",
+    "deploy": "npx prisma migrate deploy && node index.js"
   },
   "dependencies": {
     "@prisma/client": "^6.15.0",
+    "axios": "^1.12.2",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",

@@ -30,8 +30,8 @@ const TeamInvestments = () => <div className="p-6"><h1 className="text-2xl font-
 
 
 // Settings sub-pages
-const ChangePassword = () => <div className="p-6"><h1 className="text-2xl font-bold text-yellow-500">Change Profile Password</h1><p className="text-muted-foreground mt-2">Update your account password</p></div>;
-const AddWithdrawalAddress = () => <div className="p-6"><h1 className="text-2xl font-bold text-yellow-500">Add Withdrawal Address</h1><p className="text-muted-foreground mt-2">Manage your crypto withdrawal addresses</p></div>;
+import ChangePassword from './pages/app/Settings/ChangePassword';
+import AddWithdrawalAddress from './pages/app/Settings/AddWithdrawalAddress';
 import { AuthProvider, useAuth } from "@/hooks/use-auth";
 import PaymentsPage from "./pages/app/admin/Payments";
 import CryptoDeposit from "./pages/app/CryptoDeposit";

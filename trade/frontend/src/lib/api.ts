@@ -13,9 +13,13 @@ export function setAuthToken(token: string | null) {
 export async function api<T = unknown>(path: string, init?: { method?: string; body?: unknown; headers?: Record<string, string> }): Promise<T> {
   const token = getAuthToken();
 
-  // Use relative path when in development (Vite proxy will handle it)
-  // Use full URL for production or when path already starts with http
-  const fullUrl = path.startsWith('http') ? path : path;
+  // Determine the base URL based on environment
+  const isDevelopment = import.meta.env.DEV;
+  const baseUrl = isDevelopment 
+    ? '' // Use relative URLs in development (Vite proxy will handle it)
+    : window.location.origin; // Use current origin in production
+    
+  const fullUrl = path.startsWith('http') ? path : `${baseUrl}${path}`;
 
   // Only log in development mode to improve performance
   if (process.env.NODE_ENV === 'development') {
@@ -40,7 +44,17 @@ export async function api<T = unknown>(path: string, init?: { method?: string; b
     let message = 'Request failed';
     try {
       const data = await res.json();
-      message = data?.error?.message || data?.error || data?.message || message;
+      if (process.env.NODE_ENV === 'development') {
+        console.error('API error data:', data);
+      }
+      // Handle Zod validation errors
+      if (data?.error?.fieldErrors || data?.error?.formErrors) {
+        const fieldErrors = data.error.fieldErrors || {};
+        const formErrors = data.error.formErrors || [];
+        message = formErrors[0] || Object.values(fieldErrors)[0]?.[0] || 'Validation failed';
+      } else {
+        message = data?.error?.message || data?.error || data?.message || message;
+      }
     } catch {}
     if (process.env.NODE_ENV === 'development') {
       console.error('API error:', message);

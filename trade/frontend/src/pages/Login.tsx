@@ -49,8 +49,9 @@ export default function LoginPage() {
   // ✅ HANDLER FOR GOOGLE SIGN-IN
   function handleGoogleSignIn() {
     // Redirect to the backend endpoint to start the Google OAuth flow
-    // Make sure your backend server is running on port 4000
-    window.location.href = 'http://localhost:4000/api/auth/google';
+    const isDevelopment = window.location.hostname === 'localhost';
+    const baseUrl = isDevelopment ? 'http://localhost:4000' : window.location.origin;
+    window.location.href = `${baseUrl}/api/auth/google`;
   }
 
   return (

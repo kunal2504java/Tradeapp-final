@@ -57,7 +57,9 @@ export default function RegisterPage() {
     if (sponsorCode) params.append('ref', sponsorCode);
     if (position) params.append('position', position);
     
-    window.location.href = `http://localhost:4000/api/auth/google?${params.toString()}`;
+    const isDevelopment = window.location.hostname === 'localhost';
+    const baseUrl = isDevelopment ? 'http://localhost:4000' : window.location.origin;
+    window.location.href = `${baseUrl}/api/auth/google?${params.toString()}`;
   };
 
   return (

@@ -45,6 +45,7 @@ model users {
   full_name      String   @db.VarChar(200)
   email          String   @unique @db.VarChar(200)
   password_hash  String?  @db.VarChar(200)
+  password_updated_at DateTime? @db.Timestamp(6)
   referral_code  String   @unique @db.VarChar(32)
   sponsor_id     String?  @db.VarChar(30)
   position       String?  @db.VarChar(10) // 'LEFT' or 'RIGHT'
@@ -75,12 +76,15 @@ model wallet_addresses {
   user_id       String   @db.VarChar(30)
   blockchain    String   @db.VarChar(20) // 'BTC', 'ETH', 'USDT', 'USDC', etc.
   address       String   @db.VarChar(200)
+  label         String?  @db.VarChar(100) // User-friendly label for the address
   is_active     Boolean  @default(true)
+  is_selected   Boolean  @default(false) // Currently selected address for this blockchain
   created_at    DateTime @default(now()) @db.Timestamp(6)
   users         users    @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   
-  @@unique([user_id, blockchain])
+  @@unique([user_id, blockchain, address]) // Allow multiple addresses per blockchain
   @@index([user_id], map: "idx_wallet_addresses_user")
+  @@index([user_id, blockchain], map: "idx_wallet_addresses_user_blockchain")
 }
 
 model rewards {

@@ -1,7 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from './use-auth';
 
-const API_BASE_URL = 'http://localhost:4000/api';
+// Determine API base URL based on environment
+const isDevelopment = typeof window !== 'undefined' && window.location.hostname === 'localhost';
+const API_BASE_URL = isDevelopment 
+  ? 'http://localhost:4000/api'
+  : 'https://fox-trading-api.onrender.com/api'; // Render backend URL
 
 export interface DashboardData {
   user_name: string;
