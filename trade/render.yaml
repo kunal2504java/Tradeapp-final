@@ -5,7 +5,7 @@ services:
     runtime: node
     plan: free
     buildCommand: cd api && npm install && npx prisma generate
-    startCommand: cd api && npm start
+    startCommand: cd api && npm run deploy
     healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV
