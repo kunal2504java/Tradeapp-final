@@ -12,17 +12,12 @@ import AppLayout from "./layouts/AppLayout";
 import Dashboard from "./pages/app/Dashboard";
 import Network from "./pages/app/Network";
 import Referrals from "./pages/app/Referrals";
-import Investments from "./pages/app/Investments";
 import Wallet from "./pages/app/Wallet";
 import Profile from "./pages/app/Profile";
 import Salary from "./pages/app/Salary";
 import Rewards from "./pages/app/Rewards";
 
 // Sub-page components for new navigation structure
-
-// Investment sub-pages
-const MyInvestments = () => <div className="p-6"><h1 className="text-2xl font-bold text-yellow-500">My Investments</h1><p className="text-muted-foreground mt-2">Manage your personal investments</p></div>;
-const TeamInvestments = () => <div className="p-6"><h1 className="text-2xl font-bold text-yellow-500">Team Investments</h1><p className="text-muted-foreground mt-2">View your team's investment portfolio</p></div>;
 
 // Income sub-pages
 
@@ -112,10 +107,6 @@ function AppRoutes() {
         <Route path="deposit/crypto" element={<CryptoDeposit />} />
         <Route path="deposit/history" element={<DepositHistory />} />
         
-        {/* Investment Routes */}
-        <Route path="investments/my" element={<MyInvestments />} />
-        <Route path="investments/team" element={<TeamInvestments />} />
-        
         {/* Income Routes */}
         <Route path="income/my" element={<MyIncome />} />
         <Route path="income/referral" element={<ReferralIncome />} />
@@ -136,7 +127,6 @@ function AppRoutes() {
         <Route path="settings/address" element={<AddWithdrawalAddress />} />
         
         {/* Legacy routes - can be removed later */}
-        <Route path="investments" element={<Investments />} />
         <Route path="network" element={<Network />} />
         <Route path="referrals" element={<Referrals />} />
         <Route path="wallet" element={<Wallet />} />

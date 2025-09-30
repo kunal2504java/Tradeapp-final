@@ -163,28 +163,6 @@ export default function AppLayout() {
             )}
           </div>
 
-          {/* Investment Menu */}
-          <div>
-            <MenuButton label="Investment" menuKey="investment" />
-            {expandedMenus.includes('investment') && (
-              <div className="space-y-1 mt-1 ml-2 border-l border-yellow-500/20 pl-2">
-                <NavLink 
-                  to="/app/investments/my" 
-                  className={({ isActive }) => getSubNavLinkClass(isActive)}
-                  onClick={closeMobileMenu}
-                >
-                  My Investments
-                </NavLink>
-                <NavLink 
-                  to="/app/investments/team" 
-                  className={({ isActive }) => getSubNavLinkClass(isActive)}
-                  onClick={closeMobileMenu}
-                >
-                  Team Investments
-                </NavLink>
-              </div>
-            )}
-          </div>
 
           {/* Income Menu */}
           <div>
